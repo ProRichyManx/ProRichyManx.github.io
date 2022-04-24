@@ -12,21 +12,26 @@
         this.liquidcolor = liquidcolor;
         this.handle = handle;
         
-        this.pour= function(color){this.color = "empty"; document.body.style.backgroundColor = "red"}
+        this.pour = function(capacity){document.body.style.backgroundColor = "red"}
       }
       
-      let cup = new Cup("Water", "Full", "Clear", "None")
-      let coffeemug = new Cup("Coffee", "Half-Full", "Brown", "Curved")
-      
-      
-      document.getElementById("cliquid").innerHTML = cup.liquid
-      document.getElementById("ccapacity").innerHTML = cup.capacity
-      document.getElementById("cliquidcolor").innerHTML = cup.liquidcolor
-      document.getElementById("chandle").innerHTML = cup.handle
-      document.getElementById("fliquid").innerHTML = coffeecup.liquid
-      document.getElementById("fcapacity").innerHTML = coffeecup.capacity
-      document.getElementById("fliquidcolor").innerHTML = coffeecup.liquidcolor
-      document.getElementById("fhandle").innerHTML = coffeecup.handle
+      let cup = new Cup("Water", "Full", "Clear", "None");
+      let coffeemug = new Cup("Coffee", "Half-Full", "Brown", "Curved");
+      coffeemug.pour = function(capacity){document.body.style.backgroundColor = "green"}
+
+      function cupwrite() {
+        document.write("Liquid - " + cup.liquid + "<br>")
+        document.write("Capacity - " + cup.capacity + "<br>")
+        document.write("Liquid Color - " + cup.liquidcolor + "<br>")
+        document.write("Cup - " + cup.handle + "<br>")
+      }
+
+      function coffeewrite() {
+        document.write("Liquid - " + coffeemug.liquid + "<br>")
+        document.write("Capacity - " + coffeemug.capacity + "<br>")
+        document.write("Liquid Color - " + coffeemug.liquidcolor + "<br>")
+        document.write("Cup - " + coffeemug.handle + "<br>")
+      }
     </script>
   </head>
   <body>
@@ -38,21 +43,15 @@
       <table>
         <tr>
           <p>Cup</p>
-          <p>Liquid - <span id="cliquid"></span></p>
-          <p>Capacity - <span id="ccapacity"></span></p>
-          <p>Liquid Color - <span id="cliquidcolor"></span></p>
-          <p>Handle - <span id="chandle"></span></p>
+          <p><script>cupwrite()</script></p>
         </tr>
         <tr>
           <p>Coffee</p>
-          <p>Liquid - <span id="fliquid"></span></p>
-          <p>Capacity - <span id="fcapacity"></span></p>
-          <p>Liquid Color - <span id="fliquidcolor"></span></p>
-          <p>Handle - <span id="fhandle"></span></p>
+          <p><script>coffeewrite()</script></p>
         </tr>
       </table>
       <button onclick="cup.pour()">Click to Pour Cup</button>
-      <button onclick="coffeecup.pour()">Click to Pour Coffee</button>
+      <button onclick="coffeemug.pour()">Click to Pour Coffee</button>
     </div>
   </body>
 </html>
