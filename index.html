@@ -15,8 +15,12 @@
         this.pour= function(color){this.color = "empty"}
       }
       
+      var cup = new Cup("Water", "Full", "Clear", "None")
+      var coffee = new Cup("Coffee", "Half-Full", "Brown", "Curved")
+      
+      
       document.getElementById("cup").innerHTML =  new Cup("Water", "Full", "Clear", "None")
-      document.getElementById("coffee").innerHTML = = new Cup("Coffee", "Half-Full", "Brown", "Curved")
+      document.getElementById("coffee").innerHTML =  new Cup("Coffee", "Half-Full", "Brown", "Curved")
     </script>
   </head>
   <body>
@@ -25,7 +29,9 @@
       <h1>CLICK ME WOOO</h1>
     </div>
     <div>
-      <button onclick="Cup()"
+      <p id="cup"></p>
+      <p id="coffee"></p>
+      <button onclick=""
     </div>
   </body>
 </html>
