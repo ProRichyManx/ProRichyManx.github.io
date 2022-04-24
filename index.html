@@ -10,13 +10,13 @@
         this.liquid = liquid;
         this.capacity = capacity;
         this.liquidcolor = liquidcolor;
-        this.handle= handle;
+        this.handle = handle;
         
         this.pour= function(color){this.color = "empty"; document.body.style.backgroundColor = "red"}
       }
       
-      var cup = new Cup("Water", "Full", "Clear", "None")
-      var coffeecup = new Cup("Coffee", "Half-Full", "Brown", "Curved")
+      let cup = new Cup("Water", "Full", "Clear", "None")
+      let coffeemug = new Cup("Coffee", "Half-Full", "Brown", "Curved")
       
       
       document.getElementById("cliquid").innerHTML = cup.liquid
