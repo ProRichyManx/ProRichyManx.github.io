@@ -6,12 +6,26 @@
       function banana(){
         document.body.style.color="rgb(255,0,0)"
       }
+      function Cup(liquid, capacity, liquidcolor, handle){
+        this.liquid = liquid;
+        this.capacity = capacity;
+        this.liquidcolor = liquidcolor;
+        this.handle= handle;
+        
+        this.pour= function(color){this.color = "empty"}
+      }
+      
+      document.getElementById("cup").innerHTML =  new Cup("Water", "Full", "Clear", "None")
+      document.getElementById("coffee").innerHTML = = new Cup("Coffee", "Half-Full", "Brown", "Curved")
     </script>
   </head>
   <body>
     <h1>Hello World!</h1>
     <div onclick="banana()">
       <h1>CLICK ME WOOO</h1>
+    </div>
+    <div>
+      <button onclick="Cup()"
     </div>
   </body>
 </html>
