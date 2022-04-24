@@ -12,15 +12,21 @@
         this.liquidcolor = liquidcolor;
         this.handle= handle;
         
-        this.pour= function(color){this.color = "empty"}
+        this.pour= function(color){this.color = "empty"; background.c}
       }
       
       var cup = new Cup("Water", "Full", "Clear", "None")
-      var coffee = new Cup("Coffee", "Half-Full", "Brown", "Curved")
+      var coffeecup = new Cup("Coffee", "Half-Full", "Brown", "Curved")
       
       
-      document.getElementById("cup").innerHTML =  new Cup("Water", "Full", "Clear", "None")
-      document.getElementById("coffee").innerHTML =  new Cup("Coffee", "Half-Full", "Brown", "Curved")
+      document.getElementById("cliquid").innerHTML = cup.liquid
+      document.getElementById("ccapacity").innerHTML = cup.capacity
+      document.getElementById("cliquidcolor").innerHTML = cup.liquidcolor
+      document.getElementById("chandle").innerHTML = cup.handle
+      document.getElementById("fliquid").innerHTML = coffeecup.liquid
+      document.getElementById("fcapacity").innerHTML = coffeecup.capacity
+      document.getElementById("fliquidcolor").innerHTML = coffeecup.liquidcolor
+      document.getElementById("fhandle").innerHTML = coffeecup.handle
     </script>
   </head>
   <body>
@@ -29,9 +35,23 @@
       <h1>CLICK ME WOOO</h1>
     </div>
     <div>
-      <p id="cup"></p>
-      <p id="coffee"></p>
-      <button onclick=""
+      <table>
+        <row>
+          <p>Cup</p>
+          <p id="cliquid">A</p>
+          <p id="ccapacity">A</p>
+          <p id="cliquidcolor">A</p>
+          <p id="chandle">A</p>
+        </row>
+        <row>
+          <p id="fliquid">A</p>
+          <p id="fcapacity">A</p>
+          <p id="fliquidcolor">A</p>
+          <p id="fhandle">A</p>
+        </row>
+      </table>
+      <button onclick="cup.pour()">Click to Pour Cup</button>
+      <button onclick="coffeecup.pour()">Click to Pour Coffee</button>
     </div>
   </body>
 </html>
