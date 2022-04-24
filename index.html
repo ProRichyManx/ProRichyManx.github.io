@@ -12,12 +12,12 @@
         this.liquidcolor = liquidcolor;
         this.handle = handle;
         
-        this.pour = function(capacity){document.body.style.backgroundColor = "red"}
+        this.pour = function(capacity){this.capacity = "empty"; document.body.style.backgroundColor = "red"}
       }
       
       let cup = new Cup("Water", "Full", "Clear", "None");
       let coffeemug = new Cup("Coffee", "Half-Full", "Brown", "Curved");
-      coffeemug.pour = function(capacity){document.body.style.backgroundColor = "green"}
+      coffeemug.pour = function(capacity){this.capacity = "empty"; document.body.style.backgroundColor = "green"}
 
       function cupwrite() {
         document.write("Liquid - " + cup.liquid + "<br>")
