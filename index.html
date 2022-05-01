@@ -1,7 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Page 1</title>
+    <style>
+      table, th{
+       border: 1px solid black; 
+      }
+    </style>
+    
     <script>
       function banana(){
         document.body.style.color="rgb(0,0,255)"
@@ -20,17 +25,24 @@
       coffeemug.pour = function(capacity){this.capacity = "empty"; document.body.style.backgroundColor = "green"}
 
       function cupwrite() {
+        document.write("<table>")
+        document.write("Cup" + "<br>" + "<br>")
         document.write("Liquid - " + cup.liquid + "<br>")
         document.write("Capacity - " + cup.capacity + "<br>")
         document.write("Liquid Color - " + cup.liquidcolor + "<br>")
         document.write("Cup - " + cup.handle + "<br>")
+        document.write("</table>")
       }
 
       function coffeewrite() {
+        document.write("<table>")
+        document.write("Coffee" + "<br>" + "<br>")
+        document.write("Liquid - " + cup.liquid + "<br>")
         document.write("Liquid - " + coffeemug.liquid + "<br>")
         document.write("Capacity - " + coffeemug.capacity + "<br>")
         document.write("Liquid Color - " + coffeemug.liquidcolor + "<br>")
         document.write("Cup - " + coffeemug.handle + "<br>")
+        document.write("</table>")
       }
     </script>
   </head>
@@ -42,14 +54,13 @@
     <div>
       <table>
         <tr>
-          <p>Cup</p>
-          <p><script>cupwrite()</script></p>
+          <th><script>cupwrite()</script></th>
         </tr>
         <tr>
-          <p>Coffee</p>
-          <p><script>coffeewrite()</script></p>
+          <th><script>coffeewrite()</script></th>
         </tr>
       </table>
+      <br>
       <button onclick="cup.pour();cupwrite()">Click to Pour Cup</button>
       <button onclick="coffeemug.pour();coffeewrite()">Click to Pour Coffee</button>
     </div>
