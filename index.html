@@ -36,17 +36,52 @@
 
         g.innerHTML = ""
         g.innerHTML += "<table><tr><td>Coffee</td></tr><tr><td>Liquid - "+ coffeemug.liquid +"</td></tr><tr><td>Capacity - "+ coffeemug.capacity +"</td></tr><tr><td>Liquid Color - "+ coffeemug.liquidcolor +"</td></tr><tr><td>Handle - "+ coffeemug.handle +"</td></tr></td></tr></table>"
-      }
-      
-      var buttonright = document.getElementById("buttonright").addEventListener("click", buttonright());
-      var buttonleft = document.getElementById("buttonleft").addEventListener("click", buttonleft());
+        }
 
-      function buttonleft(){
-        cup.pour = function(capacity){this.capacity = "OVERFLOWING"};
-      }
-      function buttonright(){
-        coffeemug.pour = function(capacity){this.capacity = "OVERFLOWING"}; 
-      }
+      const canvas = document.getElementById("screen")
+      const ctx = canvas.getContext("2d")
+
+      ctx.fillStyle = "black"
+
+      let p1={x:10, y:200, w:20, h:75}
+      //w is the width, h is height.
+      ctx.fillRect(p1.x, p1.y, p1.w, p1.h) 
+
+      let b={x:300, y:200, r:10}
+      ctx.beginPath()
+      ctx.arc(b.x, b.y, b.r, 0, Math.PI*2, false)
+      //draw arc from 0 to Math.PI*2 (0-360 degrees), clockwize
+      ctx.closePath()
+      .fill()
+
+      p1.msg = "1:0"
+      ctx.font = "50px fantasy"
+      ctx.fillText(p1.msg, p1.x, 40)
+
+      function drawPath(pts, x, y, size, fill_style, stroke_style) {
+	      ctx.beginPath()
+	      ctx.moveTo(pts[0].x*size + x, pts[0].y*size + y)
+	        for (let i = 1; i<pts.length; ++i) {
+	          ctx.lineTo(pts[i].x*size + x, pts[i].y*size + y)
+	        }
+	      ctx.closePath()
+	      ctx.fillStyle = fill_style
+	      ctx.fill()
+	      ctx.strokeStyle = stroke_style
+	      ctx.stroke() //outlines the shape
+	    }
+
+      let points = [
+          {x:10,y:10},
+          {x:15,y:10},
+          {x:15,y:15},
+          {x:20,y:20},
+          {x:15,y:20},
+          {x:15,y:15},
+          {x:10,y:15}
+      ]
+
+      drawPath(points, 10, 50, 2, "rgb(255,0,0)", "rgb(0,0,255)")
     </script>
   </head>
   <body>
@@ -65,9 +100,8 @@
       <br>
       <button onclick="cup.pour();cupwrite()">Click to Pour Cup</button>
       <button onclick="coffeemug.pour();coffeewrite()">Click to Pour Coffee</button>
-      
-      <input type="image" src="left.png" id="buttonleft">
-      <input type="image" src="right.png" id="buttonright">
+      <br>
+      <canvas height="600" width="600" id="screen">CUP ANIMATION</canvas>
     </div>
   </body>
 </html>
