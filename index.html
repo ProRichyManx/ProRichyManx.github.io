@@ -38,50 +38,99 @@
         g.innerHTML += "<table><tr><td>Coffee</td></tr><tr><td>Liquid - "+ coffeemug.liquid +"</td></tr><tr><td>Capacity - "+ coffeemug.capacity +"</td></tr><tr><td>Liquid Color - "+ coffeemug.liquidcolor +"</td></tr><tr><td>Handle - "+ coffeemug.handle +"</td></tr></td></tr></table>"
         }
 
-      const canvas = document.getElementById("screen")
-      const ctx = canvas.getContext("2d")
+      //recognize the canvas
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+//recognize the buttons
+var startbutton = document.getElementById('startbutton');
+var startbutton2 = document.getElementById('startbutton2');
+// size of rectangle
+x = 20;
+y = 20;
+// place of rectangle
+a = 0;
+b = 0;
+// placeholder for interval
+var z;
+// once clear reaches a certain value, it resets
+clear = 0;
+//how fast the thing is going, more speed = slower
+speed = 20;
+//i like green
+ctx.fillStyle = "green";
 
-      ctx.fillStyle = "black"
-
-      let p1={x:10, y:200, w:20, h:75}
-      //w is the width, h is height.
-      ctx.fillRect(p1.x, p1.y, p1.w, p1.h) 
-
-      let b={x:300, y:200, r:10}
-      ctx.beginPath()
-      ctx.arc(b.x, b.y, b.r, 0, Math.PI*2, false)
-      //draw arc from 0 to Math.PI*2 (0-360 degrees), clockwize
-      ctx.closePath()
-      .fill()
-
-      p1.msg = "1:0"
-      ctx.font = "50px fantasy"
-      ctx.fillText(p1.msg, p1.x, 40)
-
-      function drawPath(pts, x, y, size, fill_style, stroke_style) {
-	      ctx.beginPath()
-	      ctx.moveTo(pts[0].x*size + x, pts[0].y*size + y)
-	        for (let i = 1; i<pts.length; ++i) {
-	          ctx.lineTo(pts[i].x*size + x, pts[i].y*size + y)
-	        }
-	      ctx.closePath()
-	      ctx.fillStyle = fill_style
-	      ctx.fill()
-	      ctx.strokeStyle = stroke_style
-	      ctx.stroke() //outlines the shape
-	    }
-
-      let points = [
-          {x:10,y:10},
-          {x:15,y:10},
-          {x:15,y:15},
-          {x:20,y:20},
-          {x:15,y:20},
-          {x:15,y:15},
-          {x:10,y:15}
-      ]
-
-      drawPath(points, 10, 50, 2, "rgb(255,0,0)", "rgb(0,0,255)")
+function rect(what_to_do) {
+	//clear canvas
+	ctx.clearRect(0, 0, 1000, 1000);
+	//draw rectangle with our size and position
+	ctx.fillRect(a, b, x, y);
+	if (what_to_do == 1) {
+		//increase size
+		x += 5;
+		y += 10;
+	} else {
+		//move position
+		if (a < 200) {
+			a += 5;
+		} else if (b < 200) {
+			b += 5;
+		} else {
+			a += 3;
+			b += 3;
+		}
+	}
+	//increase variable clear
+	clear += 1;
+	// if clear > 30, then stop this animation, and start a new one with the newer, slower speed
+	if (clear > 30 * what_to_do) {
+		clearInterval(z);
+		clear = 0;
+		//after speed reaches 50, it doesnt get any slower
+		if (speed < 50) {
+			// reset the size
+			x = 20;
+			y = 20;
+			a = 0;
+			b = 0;
+			// start the animation with a slower speed 
+			speed += 5;
+			// 25 ms >  20 ms, so it will mean 40 fps vs 50 fps
+			z = setInterval(rect, speed, what_to_do);
+		} else {
+			//if it is above 100, then show the start button again!
+			ctx.clearRect(0, 0, 1000, 1000);
+			speed = 20;
+			startbutton.style.display = 'block';
+			startbutton2.style.display = 'block';
+		}
+	}
+}
+// get everything started, triggered when the button is pressed
+function start() {
+  // size of rectangle
+  x = 20;
+  y = 20;
+  // place of rectangle
+  a = 0;
+  b = 0;
+	//hide the start button, begin the animation
+	startbutton.style.display = 'none';
+	startbutton2.style.display = 'none';
+	z = setInterval(rect, speed, 1);
+	// var x  = setInterval(function, how often to call the function [ms], params...)
+}
+function start2() {
+  // size of rectangle
+  x = 20;
+  y = 20;
+  // place of rectangle
+  a = 0;
+  b = 0;
+	//hide the start button, begin the animation
+	startbutton.style.display = 'none';
+	z = setInterval(rect, speed, 3.5);
+	startbutton2.style.display = 'none';
+}
     </script>
   </head>
   <body>
@@ -101,7 +150,9 @@
       <button onclick="cup.pour();cupwrite()">Click to Pour Cup</button>
       <button onclick="coffeemug.pour();coffeewrite()">Click to Pour Coffee</button>
       <br>
-      <canvas height="600" width="600" id="screen">CUP ANIMATION</canvas>
+      <button type="button" style = "position:absolute; top:10px; " id = "startbutton" onclick = "start()">Click to Start Animation 1!</button>
+      <button type="button" style = "position:absolute; top:10px; left:200px;" id = "startbutton2" onclick = "start2()">Click to Start Animation 2!</button>
+      <canvas height="1000" width="1000" id="screen">CUP ANIMATION</canvas>
     </div>
   </body>
 </html>
