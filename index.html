@@ -21,7 +21,7 @@
       }
       
       let cup = new Cup("Water", "Full", "Clear", "None");
-      let coffeemug = new Cup("Coffee", "Half-Full", "Brown", "Curved");
+      let coffeemug = new Cup("Coffee", "Full", "Brown", "Curved");
       coffeemug.pour = function(capacity){this.capacity = "Empty"; document.body.style.backgroundColor = "rgb(0,150,0)"}
 
       function cupwrite() {
@@ -56,7 +56,8 @@
       <button onclick="cup.pour();cupwrite()">Click to Pour Cup</button>
       <button onclick="coffeemug.pour();coffeewrite()">Click to Pour Coffee</button>
       <br>
-      <button id = "startbutton" onclick = "start()">Click to Start Animation!</button>
+      <button id = "startbutton2" onclick = "start2()">Click to Pour Cup!</button>
+      <button id = "startbutton" onclick = "start()">Click to Pour Coffee!</button>
       <br>
       <canvas height="1000" width="1000" id="canvas">CUP ANIMATION</canvas>
       <script>
@@ -84,9 +85,7 @@
       //how fast the thing is going, more speed = slower
       speed = 50;
       //color of cowfee
-      ctx.fillStyle = "rgb(150,75,0)";
-      
-      
+        
       function rect(what_to_do) {
       	//clear canvas
       	ctx.clearRect(0, 0, 1000, 1000);
@@ -122,9 +121,53 @@
       			ctx.clearRect(0, 0, 1000, 1000);
       			speed = 20;
       			startbutton.style.display = 'block';
+            coffeemug.pour();
+            coffeewrite();
       		}
       	}
       }
+
+      function rect2(what_to_do) {
+      	//clear canvas
+      	ctx.clearRect(0, 0, 1000, 1000);
+        //(x, y, width, height);
+      	//draw rectangle with our size and position
+      	ctx.fillRect(a, b, x, y);
+        ctx2.beginPath();
+        ctx2.rect(a1, b1, x1, y1);
+        ctx2.stroke();
+      	if (what_to_do == 1) {
+      		//decrease size
+      		y -= 10;
+          b += 10;
+      	}
+      	//increase variable clear
+      	clear += 1.25;
+      	// if clear > 30, then stop this animation, and start a new one with the newer, slower speed
+      	if (clear > 30 * what_to_do) {
+      		clearInterval(z);
+      		clear = 0;
+          speed+=1
+      		//after speed reaches 50, it doesnt get any slower
+      		if (speed < 50) {
+      			// reset the size
+      			x = 100;
+      			y = 250;
+      			a = 100;
+      			b = 100;
+      			// 25 ms >  20 ms, so it will mean 40 fps vs 50 fps
+      			z = setInterval(rect, speed, what_to_do);
+      		} else {
+      			//if it is above 100, then show the start button again!
+      			ctx.clearRect(0, 0, 1000, 1000);
+      			speed = 20;
+      			startbutton.style.display = 'block';
+            cup.pour();
+            cupwrite();
+      		}
+      	}
+      }
+        
       // get everything started, triggered when the button is pressed
       function start() {
         // size of rectangle
@@ -134,9 +177,26 @@
         a = 100;
         b = 100;
         speed = 50;
+        // recolor
+        ctx.fillStyle = "rgb(150,75,0)";
       	//hide the start button, begin the animation
       	startbutton.style.display = 'none';
       	z = setInterval(rect, speed, 1);
+      	// var x  = setInterval(function, how often to call the function [ms], params...)
+      }
+      function start2() {
+        // size of rectangle
+        x = 100;
+        y = 250;
+        // place of rectangle
+        a = 100;
+        b = 100;
+        speed = 50;
+        // recolor
+        ctx.fillStyle = "rgb(173,216,230)";
+      	//hide the start button, begin the animation
+      	startbutton.style.display = 'none';
+      	z = setInterval(rect2, speed, 1);
       	// var x  = setInterval(function, how often to call the function [ms], params...)
       }
       </script>
