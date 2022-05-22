@@ -106,7 +106,18 @@ function shoot2(){
   while((laser2.x+15)> -canvas.width){
     laser2.x -= laser2.speed;
     drawRect(laser2.x, laser2.y, laser2.width, laser2.height, laser2.color);
-    if(((laser2.x+laser2.width)<= -canvas.width) || (collision2(laser2,user) )){
+    if(((laser2.x+laser2.width)<= -canvas.width)){
+      laser2.width = 0
+      laser2.x = canvas.width/2;
+      break
+    }
+    if(collision2(laser2,user)){
+      laser2.width = 0
+      laser2.x = canvas.width/2;
+      laser2.status = 0;
+      user.status = 0;
+      user.height = 0;
+      user.width = 0
       break
     }
   }
@@ -145,22 +156,17 @@ function update(){
   if(collision1(laser1,com)){
     laser1.status = 0;
     com.status = 0;
+    com.height = 0;
+    com.width = 0
   }
 
   if(collision2(laser2,user)){
     laser2.status = 0;
     user.status = 0;
-  }
-
-  if(user.status == 0){
-    user.height = 0,
+    user.height = 0;
     user.width = 0
   }
 
-  if(com.status == 0){
-    com.height = 0,
-    com.width = 0
-  }
 
   if(ball.x - ball.radius<0){
     com.score++;
@@ -215,7 +221,7 @@ function collision1 (l,p){
   l.left = l.x;
   l.right = l.x + l.width;
 
-  return l.right=> p.left && p.top < l.bottom && l.left <= p.right && p.bottom > l.top;
+  return l.right> p.left && p.top < l.bottom && l.left < p.right && p.bottom > l.top;
 }
 
 function collision2 (l,p){
@@ -229,7 +235,7 @@ function collision2 (l,p){
   l.left = l.x;
   l.right = l.x + l.width;
 
-  return l.right<= p.left && p.top < l.bottom && l.leftp.right <=  && l.bottom > p.top;
+  return l.right< p.left && p.top < l.bottom && l.left < p.right && p.bottom> l.top ;
 }
 
 let numnum = 1
@@ -259,5 +265,4 @@ function game(){
 
 const framePerSecond = 50;
 setInterval(game, 1000/framePerSecond); // 1000ms per sec
-setInterval(shoot1, 500);
-setInterval(shoot2, 500);
+setInterval(shoot2, 1000);
