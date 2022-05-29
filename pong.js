@@ -303,7 +303,7 @@ function render(){
   drawRect(com.x, com.y, com.width, com.height, com.color);
   drawCircle(ball.x, ball.y, ball.radius, ball.color);
   if (user.width == 0){
-    drawTexts("CLICK THE BOX TO RESPAWN", canvas.width/2 - 80, canvas.height-10, "WHITE")
+    drawTexts("CLICK THE BOX TO RESPAWN", canvas.width/2 - 80, canvas.height-10, "RED")
     drawRect(canvas.width/2 + 50 - boxx, canvas.height/2 - boxy, 40, 40, "RED")
     canvas.addEventListener("click", click)
   }
