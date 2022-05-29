@@ -12,6 +12,12 @@ function drawText(text,x,y,color){
   ctx.fillText(text,x,y);
 }
 
+function drawTexts(text,x,y,color){
+  ctx.fillStyle=color;
+  ctx.font="15px fantasy";
+  ctx.fillText(text,x,y);
+}
+
 function drawCircle(x,y,r,color){
   ctx.fillStyle=color;
   ctx.beginPath();
@@ -85,43 +91,72 @@ function movePaddle(evt){
   user.y = evt.clientY - rect.top - user.height/2;
 }
 
-function shoot1(){
-  laser1.width = 10
-  laser1.x = user.x;
-  drawRect(laser1.x, laser1.y, laser1.width, laser1.height, laser1.color);
-  while((laser1.x-11)<canvas.width){
-    laser1.x += laser1.speed;
-    drawRect(laser1.x, laser1.y, laser1.width, laser1.height, laser1.color);
-    if(((laser1.x+laser1.width)>= canvas.width) || (collision1(laser1,com) )){
-      break
-    }
+function getRandomInt(max) {
+  return Math.floor(Math.random() * max);
+}
+
+function click(){
+  if(user.width == 0){ 
+    user.status = 1;
+    user.height = 50;
+    user.width = 10;
   }
-  drawRect(laser1.x, laser1.y, laser1.width, laser1.height, "BLACK");
+}
+
+function shoot1(){
+  if(user.status == 1){
+    laser1.width = 10
+    laser1.x = user.x;
+    drawRect(laser1.x, laser1.y, laser1.width, laser1.height, laser1.color);
+    while((laser1.x-11)<canvas.width){
+      laser1.x += laser1.speed;
+      drawRect(laser1.x, laser1.y, laser1.width, laser1.height, laser1.color);
+      if(((laser1.x+laser1.width)>= canvas.width)){
+        laser1.width = 0
+        laser1.x = canvas.width/1;
+        break
+      }
+      if(collision1(laser1,com)){
+        laser1.width = 0
+        laser1.x = canvas.width/2;
+        laser1.status = 0;
+        com.status = 0;
+        com.height = 0;
+        com.width = 0
+        break
+      }
+    }
+    drawRect(laser1.x, laser1.y, laser1.width, laser1.height, "BLACK");
+  }
 }
 
 function shoot2(){
-  laser2.width = 10
-  laser2.x = com.x;
-  drawRect(laser2.x, laser2.y, laser2.width, laser2.height, laser2.color);
-  while((laser2.x+15)> -canvas.width){
-    laser2.x -= laser2.speed;
+  if(com.status == 1){
+    laser2.width = 10
+    laser2.x = com.x;
     drawRect(laser2.x, laser2.y, laser2.width, laser2.height, laser2.color);
-    if(((laser2.x+laser2.width)<= -canvas.width)){
-      laser2.width = 0
-      laser2.x = canvas.width/2;
-      break
+    while((laser2.x+15)> -canvas.width){
+      laser2.x -= laser2.speed;
+      drawRect(laser2.x, laser2.y, laser2.width, laser2.height, laser2.color);
+      if(((laser2.x+laser2.width)<= -canvas.width)){
+        laser2.width = 0
+        laser2.x = canvas.width/2;
+        break
+      }
+      if(collision2(laser2,user)){
+        laser2.width = 0
+        laser2.x = canvas.width/2;
+        laser2.status = 0;
+        user.status = 0;
+        user.height = 0;
+        user.width = 0;
+        boxx = getRandomInt(100);
+        boxy = getRandomInt(100);
+        break
+      }
     }
-    if(collision2(laser2,user)){
-      laser2.width = 0
-      laser2.x = canvas.width/2;
-      laser2.status = 0;
-      user.status = 0;
-      user.height = 0;
-      user.width = 0
-      break
-    }
+    drawRect(laser2.x, laser2.y, laser2.width, laser2.height, "BLACK");
   }
-  drawRect(laser2.x, laser2.y, laser2.width, laser2.height, "BLACK");
 }
 
 function update(){
@@ -129,7 +164,11 @@ function update(){
   laser2.y = com.y + (com.height/2) - 3;
   ball.x += ball.velocityX;
   ball.y += ball.velocityY;
-
+  document.addEventListener("mousemove", () => {
+    let mousex = event.clientX; // Gets Mouse X
+    let mousey = event.clientY; // Gets Mouse Y
+  })
+  
   let computerlevel = 0.1;
   com.y += (ball.y -(com.y + com.height/2)) * computerlevel;
   
@@ -150,10 +189,12 @@ function update(){
     ball.velocityY = direction * ball.speed* Math.sin(angleRad);
 
     ball.speed += 0.1;
-    
   }
   
   if(collision1(laser1,com)){
+    laser1.width = 0
+    laser1.x = canvas.width/2;
+    laser1.status = 0;
     laser1.status = 0;
     com.status = 0;
     com.height = 0;
@@ -161,6 +202,9 @@ function update(){
   }
 
   if(collision2(laser2,user)){
+    laser2.width = 0
+    laser2.x = canvas.width/2;
+    laser2.status = 0;
     laser2.status = 0;
     user.status = 0;
     user.height = 0;
@@ -207,7 +251,7 @@ function collision (b,p){
   b.left = b.x - b.radius;
   b.right = b.x + b.radius;
 
-  return b.right> p.left && p.top < b.bottom && b.left < p.right && p.bottom > b.top;
+  return b.right> p.left && p.top < b.bottom && b.left < p.right && p.bottom > b.top && p.status == true;
 }
 
 function collision1 (l,p){
@@ -221,7 +265,7 @@ function collision1 (l,p){
   l.left = l.x;
   l.right = l.x + l.width;
 
-  return l.right> p.left && p.top < l.bottom && l.left < p.right && p.bottom > l.top;
+  return l.right> p.left && p.top < l.bottom && l.left < p.right && p.bottom > l.top && p.status == true;
 }
 
 function collision2 (l,p){
@@ -235,7 +279,7 @@ function collision2 (l,p){
   l.left = l.x;
   l.right = l.x + l.width;
 
-  return l.right< p.left && p.top < l.bottom && l.left < p.right && p.bottom> l.top ;
+  return l.right< p.left && p.top < l.bottom && l.left < p.right && p.bottom> l.top && p.status == true;
 }
 
 let numnum = 1
@@ -250,12 +294,19 @@ function render(){
     numnum = 0
   }
   drawRect(0,0, canvas.width, canvas.height, "BLACK");
+  drawTexts("You fire every 1.7 seconds", 20, canvas.height-10, "WHITE")
+  drawTexts("NPC fires every 1.3 seconds", canvas.width-175, canvas.height-10, "WHITE")
   drawText(user.score, canvas.width/4, canvas.height/5, "WHITE");
   drawText(com.score, 3*canvas.width/4, canvas.height/5, "WHITE");
   drawNet();
   drawRect(user.x, user.y, user.width, user.height, user.color);
   drawRect(com.x, com.y, com.width, com.height, com.color);
   drawCircle(ball.x, ball.y, ball.radius, ball.color);
+  if (user.width == 0){
+    drawTexts("CLICK THE BOX TO RESPAWN", canvas.width/2 - 80, canvas.height-10, "WHITE")
+    drawRect(canvas.width/2 + 50 - boxx, canvas.height/2 - boxy, 40, 40, "RED")
+    canvas.addEventListener("click", click)
+  }
 }
 
 function game(){
@@ -265,4 +316,5 @@ function game(){
 
 const framePerSecond = 50;
 setInterval(game, 1000/framePerSecond); // 1000ms per sec
-setInterval(shoot2, 1000);
+setInterval(shoot2, 1700);
+setInterval(shoot2, 1300);
