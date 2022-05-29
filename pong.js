@@ -316,5 +316,5 @@ function game(){
 
 const framePerSecond = 50;
 setInterval(game, 1000/framePerSecond); // 1000ms per sec
-setInterval(shoot1, 1700);
+setInterval(shoot2, 1700);
 setInterval(shoot2, 1300);
